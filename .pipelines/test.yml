@@ -1,0 +1,52 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: BuildJob
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
+
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+      displayName: 'Run a multi-line script'
+- stage: Confirm
+  displayName: Confirm build
+  jobs:
+    - job: waitForValidation
+      displayName: Wait for external validation  
+      pool: server    
+      timeoutInMinutes: 4320 # job times out in 3 days
+      steps:   
+      - task: ManualValidation@0
+        timeoutInMinutes: 1440 # task times out in 1 day
+        inputs:
+          notifyUsers: 'a0d1mq@gmail.com'
+          instructions: 'Please validate the build configuration and resume'
+- stage: Deploy
+  displayName: Deploy stage
+  jobs:
+  - job: DeployJob
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
+
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+      displayName: 'Run a multi-line script'
